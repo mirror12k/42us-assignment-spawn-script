@@ -79,7 +79,7 @@ sub main {
 
 	mkdir $exercise;
 
-	dump_file("$exercise/$function_name.c", slurp_file('stdheader.h') .
+	dump_file("$exercise/$function_name.c", `./stdheader.pl $function_name.c` .
 ( join '', map "$_\n\n", @required_prototypes ) . 
 "$function_proto
 {
