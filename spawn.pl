@@ -100,19 +100,20 @@ int main()
 	return 0;
 }
 ");
-
-	dump_file('build.sh', "#!/bin/sh\n\n") unless -e 'build.sh';
+	unless (-e 'build.sh') {
+		dump_file('build.sh', "#!/bin/sh\n\n");
+		chmod 0755, 'build.sh';
+	}
 
 	append_file('build.sh', "
 echo building $exercise
 gcc -Wall -Wextra -Werror stupidity.c $exercise/*.c -o $exercise/a.out
 ");
-
-	dump_file('verify_normal.sh', "#!/bin/sh\n\n") unless -e 'verify_normal.sh';
-	
-	append_file('verify_normal.sh', "
-norminette -R CheckForbiddenSourceHeader $exercise/$function_name.c
-");
+	unless (-e 'verify_normal.sh') {
+		dump_file('verify_normal.sh', "#!/bin/sh\n\nnorminette -R CheckForbiddenSourceHeader");
+		chmod 0755, 'verify_normal.sh';
+	}
+	append_file('verify_normal.sh', " $exercise/$function_name.c");
 
 }
 
